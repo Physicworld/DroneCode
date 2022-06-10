@@ -37,16 +37,16 @@ float anguloRef = 0;
 
 void setup() {
   Wire.begin();
-  Wire.beginTransmission(0x68);
+  Wire.beginTransmission(0x69);
   Wire.write(0x6B);
   Wire.write(0);
   Wire.endTransmission(true);
   Serial.begin(9600);
 
-  moto1.attach(6);
-  moto2.attach(9);
-  moto3.attach(10);
-  moto4.attach(11);
+  moto1.attach(3);
+  moto2.attach(5);
+  moto3.attach(6);
+  moto4.attach(9);
 
   time = millis();
 
@@ -59,6 +59,7 @@ void setup() {
 }
 
 void loop() {
+
   while (Serial.available () > 0 ) {
     estado = Serial.read();
     estado -= 48;
@@ -102,7 +103,7 @@ void loop() {
 }
 
 void PID(double acelerador, int opcion) {
-
+  delay(100);
   tiempoPrev = time;
   time = millis();
   tiempo_transcurrido = ( time - tiempoPrev) / 1000;
@@ -110,7 +111,7 @@ void PID(double acelerador, int opcion) {
   Wire.beginTransmission(0x69);
   Wire.write(0x3B);
   Wire.endTransmission(false);
-  Wire.requestFrom(0x68, 6, true);
+  Wire.requestFrom(0x69, 6, true);
 
   Acc_rawX = Wire.read() << 8 | Wire.read();
   Acc_rawY = Wire.read() << 8 | Wire.read();
